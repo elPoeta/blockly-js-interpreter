@@ -29,26 +29,41 @@ li:first-child button {
   color: #fff;
 }
 
+li:first-child button:hover {
+  background-color: #008000a3;
+}
+
+li:last-child button:hover {
+  background-color: #8c8c8c;
+}
+
+
 li:last-child button {
   background-color: #444;
   color: #fff;
 }
-
+.outputs {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
 textarea {
   display: inline-block; 
-  height: 480px; 
-  width: 20%;
   resize: none;
   padding: 2px;
   font-size: 1.2em;
+  height: 39vh;
 }
 
 #outputJS {
   background-color: #333;
   color: #fff;
+  margin-bottom: 4px;
 }
 
 #output {
   background-color: #000;
   color: #2de91c;
+  margin-top: 4px;
 }
