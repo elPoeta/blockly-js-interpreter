@@ -33,3 +33,22 @@ li:last-child button {
   background-color: #444;
   color: #fff;
 }
+
+textarea {
+  display: inline-block; 
+  height: 480px; 
+  width: 20%;
+  resize: none;
+  padding: 2px;
+  font-size: 1.2em;
+}
+
+#outputJS {
+  background-color: #333;
+  color: #fff;
+}
+
+#output {
+  background-color: #000;
+  color: #2de91c;
+}
