@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
   <script src="./js/third_party/acorn_interpreter.js" defer></script>
   <script src="./js/third_party/blockly_compressed.js" defer></script>
   <script src="./js/third_party/blocks_compressed.js" defer></script>
@@ -14,7 +15,26 @@
 </head>
 
 <body>
-  <h1>Blockly for <a href="https://www.browxy.com" target="_blank">browxy.com</a> </h1>
+  <header>
+    <h1>Blockly for <a href="https://www.browxy.com" target="_blank">browxy.com</a> </h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li> <button onclick="runCode()" id="runButton">Run</button></li>
+      <li> <button onclick="stepCode()" id="stepButton">Step by step</button></li>
+    </ul>
+  </nav>
+
+  <div style="width: 100%">
+    <div id="blocklyDiv" style="display: inline-block; height: 480px; width: 58%"></div>
+    <textarea id="outputJS" disabled="disabled" style="display: inline-block; height: 480px; width: 20%;">
+    </textarea>
+    <textarea id="output" disabled="disabled" style="display: inline-block; height: 480px; width: 20%;">
+    </textarea>
+  </div>
+
+
 </body>
 
 </html>
