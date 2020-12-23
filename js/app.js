@@ -50,7 +50,7 @@ function resetStepUi(clearOutput) {
   runButton.disabled = '';
   if (clearOutput) {
     outputArea.value = 'Program output:\n=================';
-    outputJsArea.value = '// JavaScript  Code\n\n';
+    outputJsArea.value = '// JavaScript output\n\n';
   }
 }
 
