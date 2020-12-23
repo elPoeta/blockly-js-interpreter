@@ -81,7 +81,7 @@ function stepCode() {
     // And then show generated code in an alert.
     // In a timeout to allow the outputArea.value to reset first.
     setTimeout(function () {
-      outputJsArea.value += latestCode.replace(/highlightBlock\(.+\);/gi, '');;
+      outputJsArea.value += latestCode.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n');
       highlightPause = true;
       stepCode();
     }, 1);
@@ -123,7 +123,7 @@ function runCode() {
     // And then show generated code in an alert.
     // In a timeout to allow the outputArea.value to reset first.
     setTimeout(function () {
-      outputJsArea.value += latestCode.replace(/highlightBlock\(.+\);/gi, '');
+      outputJsArea.value += latestCode.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n');
 
       // Begin execution
       highlightPause = false;
