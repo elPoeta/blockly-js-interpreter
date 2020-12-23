@@ -150,12 +150,11 @@ function runCode() {
 }
 
 const loadExample = () => {
-  const doc = new DOMParser().parseFromString(getAmlExample(), "text/xml")
-  console.log("Load", doc.firstChild)
+  const doc = new DOMParser().parseFromString(getXmlExample(), "text/xml")
   Blockly.Xml.domToWorkspace(doc.firstChild, demoWorkspace);
 }
 
-const getAmlExample = () => (
+const getXmlExample = () => (
   ` <xml xmlns="https://developers.google.com/blockly/xml" id="startBlocks" style="display: none">
   <block type="variables_set" id="set_n_initial" inline="true" x="20" y="20">
     <field name="VAR">n</field>
