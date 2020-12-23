@@ -1,6 +1,6 @@
 let demoWorkspace = Blockly.inject('blocklyDiv',
   {
-    media: '~/assets/',
+    media: '/assets/',
     toolbox: document.getElementById('toolbox')
   });
 Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
