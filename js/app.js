@@ -48,6 +48,7 @@ function resetStepUi(clearOutput) {
   demoWorkspace.highlightBlock(null);
   highlightPause = false;
   runButton.disabled = '';
+
   if (clearOutput) {
     outputArea.value = 'Program output:\n=================';
     outputJsArea.value = '// JavaScript output\n\n';
@@ -122,7 +123,7 @@ function runCode() {
     // And then show generated code in an alert.
     // In a timeout to allow the outputArea.value to reset first.
     setTimeout(function () {
-      outputJsArea.value += latestCode;
+      outputJsArea.value += latestCode.replace(/highlightBlock\(.+\);/gi, '');
 
       // Begin execution
       highlightPause = false;
@@ -151,6 +152,10 @@ function runCode() {
 
 const loadExample = () => {
   const doc = new DOMParser().parseFromString(getXmlExample(), "text/xml")
+  //DELETE_AREA_NONE
+  const contentsBeforeClearing = demoWorkspace.trashcan.contents_;
+  demoWorkspace.clear();
+  demoWorkspace.trashcan.contents_ = contentsBeforeClearing;
   Blockly.Xml.domToWorkspace(doc.firstChild, demoWorkspace);
 }
 
