@@ -1,10 +1,10 @@
 let demoWorkspace = Blockly.inject('blocklyDiv',
   {
-    media: '../assets/',
+    media: '/assets/',
     toolbox: document.getElementById('toolbox')
   });
-Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
-  demoWorkspace);
+/*Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
+  demoWorkspace);*/
 Blockly.JavaScript.addReservedWords('exit');
 const outputArea = document.getElementById('output');
 const outputJsArea = document.getElementById('outputJS');
@@ -48,9 +48,10 @@ function resetStepUi(clearOutput) {
   demoWorkspace.highlightBlock(null);
   highlightPause = false;
   runButton.disabled = '';
+
   if (clearOutput) {
     outputArea.value = 'Program output:\n=================';
-    outputJsArea.value = '// JavaScript  Code\n\n';
+    outputJsArea.value = '// JavaScript output\n\n';
   }
 }
 
@@ -80,7 +81,7 @@ function stepCode() {
     // And then show generated code in an alert.
     // In a timeout to allow the outputArea.value to reset first.
     setTimeout(function () {
-      outputJsArea.value += latestCode;
+      outputJsArea.value += latestCode.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n');
       highlightPause = true;
       stepCode();
     }, 1);
@@ -122,7 +123,7 @@ function runCode() {
     // And then show generated code in an alert.
     // In a timeout to allow the outputArea.value to reset first.
     setTimeout(function () {
-      outputJsArea.value += latestCode;
+      outputJsArea.value += latestCode.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n');
 
       // Begin execution
       highlightPause = false;
@@ -149,6 +150,65 @@ function runCode() {
   }
 }
 
+const loadExample = () => {
+  const doc = new DOMParser().parseFromString(getXmlExample(), "text/xml")
+  //DELETE_AREA_NONE
+  const contentsBeforeClearing = demoWorkspace.trashcan.contents_;
+  demoWorkspace.clear();
+  demoWorkspace.trashcan.contents_ = contentsBeforeClearing;
+  Blockly.Xml.domToWorkspace(doc.firstChild, demoWorkspace);
+}
+
+const getXmlExample = () => (
+  ` <xml xmlns="https://developers.google.com/blockly/xml" id="startBlocks" style="display: none">
+  <block type="variables_set" id="set_n_initial" inline="true" x="20" y="20">
+    <field name="VAR">n</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">1</field>
+      </block>
+    </value>
+    <next>
+      <block type="controls_repeat_ext" id="repeat" inline="true">
+        <value name="TIMES">
+          <block type="math_number">
+            <field name="NUM">4</field>
+          </block>
+        </value>
+        <statement name="DO">
+          <block type="variables_set" id="set_n_update" inline="true">
+            <field name="VAR">n</field>
+            <value name="VALUE">
+              <block type="math_arithmetic" inline="true">
+                <field name="OP">MULTIPLY</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR">n</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">2</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="text_print" id="print">
+                <value name="TEXT">
+                  <block type="variables_get">
+                    <field name="VAR">n</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>`
+);
 // Load the interpreter now, and upon future changes.
 generateCodeAndLoadIntoInterpreter();
 demoWorkspace.addChangeListener(function (event) {
