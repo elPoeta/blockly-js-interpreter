@@ -19,17 +19,25 @@ button {
   outline: none;
   border-radius: .2em;
   border: 1px solid #222;
-  width: 100px;
+  width: 130px;
   padding: 8px;
   cursor: pointer;
 }
 
 li:first-child button {
-  background-color: green;
+  background-color: #175b83;
   color: #fff;
 }
 
 li:first-child button:hover {
+  background-color: #3d84ad;
+}
+li:nth-child(2) button {
+  background-color: green;
+  color: #fff;
+}
+
+li:nth-child(2) button:hover {
   background-color: #008000a3;
 }
 

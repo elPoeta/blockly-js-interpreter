@@ -3,8 +3,8 @@ let demoWorkspace = Blockly.inject('blocklyDiv',
     media: '/assets/',
     toolbox: document.getElementById('toolbox')
   });
-Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
-  demoWorkspace);
+/*Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
+  demoWorkspace);*/
 Blockly.JavaScript.addReservedWords('exit');
 const outputArea = document.getElementById('output');
 const outputJsArea = document.getElementById('outputJS');
@@ -148,6 +148,11 @@ function runCode() {
     return;
   }
 }
+
+const loadExample = () => {
+  console.log("Load")
+}
+
 
 // Load the interpreter now, and upon future changes.
 generateCodeAndLoadIntoInterpreter();
