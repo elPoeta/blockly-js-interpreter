@@ -81,7 +81,7 @@ function stepCode() {
     // And then show generated code in an alert.
     // In a timeout to allow the outputArea.value to reset first.
     setTimeout(function () {
-      outputJsArea.value += latestCode;
+      outputJsArea.value += latestCode.replace(/highlightBlock\(.+\);/gi, '');;
       highlightPause = true;
       stepCode();
     }, 1);
