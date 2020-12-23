@@ -150,10 +150,61 @@ function runCode() {
 }
 
 const loadExample = () => {
-  console.log("Load")
+  const doc = new DOMParser().parseFromString(getAmlExample(), "text/xml")
+  console.log("Load", doc.firstChild)
+  Blockly.Xml.domToWorkspace(doc.firstChild, demoWorkspace);
 }
 
-
+const getAmlExample = () => (
+  ` <xml xmlns="https://developers.google.com/blockly/xml" id="startBlocks" style="display: none">
+  <block type="variables_set" id="set_n_initial" inline="true" x="20" y="20">
+    <field name="VAR">n</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">1</field>
+      </block>
+    </value>
+    <next>
+      <block type="controls_repeat_ext" id="repeat" inline="true">
+        <value name="TIMES">
+          <block type="math_number">
+            <field name="NUM">4</field>
+          </block>
+        </value>
+        <statement name="DO">
+          <block type="variables_set" id="set_n_update" inline="true">
+            <field name="VAR">n</field>
+            <value name="VALUE">
+              <block type="math_arithmetic" inline="true">
+                <field name="OP">MULTIPLY</field>
+                <value name="A">
+                  <block type="variables_get">
+                    <field name="VAR">n</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">2</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="text_print" id="print">
+                <value name="TEXT">
+                  <block type="variables_get">
+                    <field name="VAR">n</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>`
+);
 // Load the interpreter now, and upon future changes.
 generateCodeAndLoadIntoInterpreter();
 demoWorkspace.addChangeListener(function (event) {
