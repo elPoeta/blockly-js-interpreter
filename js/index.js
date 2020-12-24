@@ -13,6 +13,7 @@ class CustomBlockly {
     this.runner = null;
     this.highlightPause = false;
     this.latestCode = '';
+    this.isOutputChecked = true;
     this.addButtonListener();
     this.generateCodeAndLoadIntoInterpreter();
     this.demoWorkspace.addChangeListener(event => {
@@ -84,9 +85,11 @@ class CustomBlockly {
     this.loadButton = document.querySelector('#loadButton');
     this.runButton = document.querySelector('#runButton');
     this.stepButton = document.querySelector('#stepButton');
+    this.typeJsOutput = document.querySelector('#typeJsOutput');
     this.loadButton.addEventListener('click', this.loadExample.bind(this));
     this.runButton.addEventListener('click', this.runCode.bind(this));
     this.stepButton.addEventListener('click', this.stepCode.bind(this));
+    this.typeJsOutput.addEventListener('change', this.typeJsOutputHandler.bind(this));
   }
 
   loadExample(ev) {
@@ -147,7 +150,9 @@ class CustomBlockly {
     </block>
   </xml>`
   }
-
+  typeJsOutputHandler(ev) {
+    this.isOutputChecked = !this.isOutputChecked;
+  }
   runCode(ev) {
     if (!this.myInterpreter) {
       // First statement of this code.
@@ -158,7 +163,9 @@ class CustomBlockly {
       // And then show generated code in an alert.
       // In a timeout to allow the outputArea.value to reset first.
       setTimeout(() => {
-        this.outputJsArea.value += this.latestCode.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n');
+        this.outputJsArea.value += this.isOutputChecked ?
+          this.latestCode.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n') :
+          this.latestCode;
 
         // Begin execution
         this.highlightPause = false;
@@ -195,7 +202,9 @@ class CustomBlockly {
       // And then show generated code in an alert.
       // In a timeout to allow the outputArea.value to reset first.
       setTimeout(() => {
-        this.outputJsArea.value += this.latestCode.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n');
+        this.outputJsArea.value += this.isOutputChecked ?
+          this.latestCode.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n') :
+          this.latestCode;
         this.highlightPause = true;
         this.stepCode();
       }, 1);

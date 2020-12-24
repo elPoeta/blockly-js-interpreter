@@ -41,14 +41,17 @@ li:nth-child(2) button:hover {
   background-color: #008000a3;
 }
 
-li:last-child button:hover {
+li:nth-child(3) button:hover {
   background-color: #8c8c8c;
 }
 
-
-li:last-child button {
+li:nth-child(3) button {
   background-color: #444;
   color: #fff;
+}
+
+input[type="checkbox"] {
+  margin-left: 5px;
 }
 .outputs {
   width: 40%;
