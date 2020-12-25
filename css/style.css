@@ -14,14 +14,19 @@ nav ul li {
   display: inline;
   padding: 8px;
 }
-
+.container {
+  width: 100%; 
+  display: flex;
+  justify-content: space-around;
+}
 button {
   outline: none;
   border-radius: .2em;
   border: 1px solid #222;
-  width: 130px;
+  width: 150px;
   padding: 8px;
   cursor: pointer;
+  font-size: 1.2rem;
 }
 
 li:first-child button {
@@ -32,26 +37,31 @@ li:first-child button {
 li:first-child button:hover {
   background-color: #3d84ad;
 }
-li:nth-child(2) button {
+li:nth-child(2) button,
+li:nth-child(5) button {
   background-color: green;
   color: #fff;
 }
 
-li:nth-child(2) button:hover {
+li:nth-child(2) button:hover,
+li:nth-child(5) button:hover {
   background-color: #008000a3;
 }
 
-li:last-child button:hover {
-  background-color: #8c8c8c;
-}
-
-
-li:last-child button {
+li:nth-child(3) button {
   background-color: #444;
   color: #fff;
 }
+
+li:nth-child(3) button:hover {
+  background-color: #8c8c8c;
+}
+
+input[type="checkbox"] {
+  margin-left: 5px;
+}
 .outputs {
-  width: 40%;
+  width: 39%;
   display: flex;
   flex-direction: column;
   margin-left: 5px;
@@ -74,4 +84,11 @@ textarea {
   background-color: #000;
   color: #2de91c;
   margin-top: 4px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin: 20px;
 }
