@@ -1,5 +1,6 @@
 class CustomBlockly {
   constructor() {
+    this.localStorageHandler();
     this.demoWorkspace = Blockly.inject('blocklyDiv', {
       media: '/assets/',
       toolbox: document.getElementById('toolbox')
@@ -23,6 +24,11 @@ class CustomBlockly {
         this.generateCodeAndLoadIntoInterpreter();
       }
     });
+  }
+
+  localStorageHandler() {
+    const xmlString = localStorage.getItem('xml') || this.getXmlExampleTemplate();
+    localStorage.setItem('xml', xmlString);
   }
 
   initApi(interpreter, globalObject) {
@@ -86,18 +92,23 @@ class CustomBlockly {
     this.runButton = document.querySelector('#runButton');
     this.stepButton = document.querySelector('#stepButton');
     this.typeJsOutput = document.querySelector('#typeJsOutput');
+    this.saveButton = document.querySelector('#saveButton');
     this.loadButton.addEventListener('click', this.loadExample.bind(this));
     this.runButton.addEventListener('click', this.runCode.bind(this));
     this.stepButton.addEventListener('click', this.stepCode.bind(this));
     this.typeJsOutput.addEventListener('change', this.typeJsOutputHandler.bind(this));
+    this.saveButton.addEventListener('click', this.saveBlock.bind(this));
   }
 
   loadExample(ev) {
-    const doc = new DOMParser().parseFromString(this.getXmlExampleTemplate(), "text/xml")
+    // const doc = new DOMParser().parseFromString(this.getXmlExampleTemplate(), "text/xml")
     const contentsBeforeClearing = this.demoWorkspace.trashcan.contents_;
     this.demoWorkspace.clear();
     this.demoWorkspace.trashcan.contents_ = contentsBeforeClearing;
-    Blockly.Xml.domToWorkspace(doc.firstChild, this.demoWorkspace);
+    //Blockly.Xml.domToWorkspace(doc.firstChild, this.demoWorkspace);
+    const xmlString = localStorage.getItem('xml');
+    const xml = Blockly.Xml.textToDom(xmlString);
+    Blockly.Xml.domToWorkspace(xml, this.demoWorkspace);
   }
 
   getXmlExampleTemplate() {
@@ -234,6 +245,12 @@ class CustomBlockly {
       // Keep executing until a highlight statement is reached,
       // or the code completes or errors.
     } while (this.hasMoreCode && !this.highlightPause);
+  }
+
+  saveBlock(ev) {
+    const xml = Blockly.Xml.workspaceToDom(this.demoWorkspace);
+    const xmlString = Blockly.Xml.domToText(xml);
+    localStorage.setItem('xml', xmlString);
   }
 }
 

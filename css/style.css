@@ -32,22 +32,24 @@ li:first-child button {
 li:first-child button:hover {
   background-color: #3d84ad;
 }
-li:nth-child(2) button {
+li:nth-child(2) button,
+li:nth-child(5) button {
   background-color: green;
   color: #fff;
 }
 
-li:nth-child(2) button:hover {
+li:nth-child(2) button:hover,
+li:nth-child(5) button:hover {
   background-color: #008000a3;
-}
-
-li:nth-child(3) button:hover {
-  background-color: #8c8c8c;
 }
 
 li:nth-child(3) button {
   background-color: #444;
   color: #fff;
+}
+
+li:nth-child(3) button:hover {
+  background-color: #8c8c8c;
 }
 
 input[type="checkbox"] {
