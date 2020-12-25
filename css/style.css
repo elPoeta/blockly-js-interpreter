@@ -78,3 +78,10 @@ textarea {
   color: #2de91c;
   margin-top: 4px;
 }
+
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin: 20px;
+}
