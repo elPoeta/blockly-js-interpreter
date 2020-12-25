@@ -251,6 +251,7 @@ class CustomBlockly {
     const xml = Blockly.Xml.workspaceToDom(this.demoWorkspace);
     const xmlString = Blockly.Xml.domToText(xml);
     localStorage.setItem('xml', xmlString);
+    alert("Saved!!!")
   }
 }
 
