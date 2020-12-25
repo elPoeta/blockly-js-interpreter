@@ -26,6 +26,52 @@ class CustomBlockly {
     });
   }
 
+  getToolbox() {
+    // return {
+    //   "kind": "categoryToolbox",
+    //   "contents": [
+    //     {
+    //       "kind": "category",
+    //       "name": "Logic",
+    //       "contents": [
+    //         {
+    //           "kind": "block",
+    //           "type": "controls_if"
+    //         },
+    //         {
+    //           "kind": "block",
+    //           "type": "logic_compare"
+    //         },
+    //         {
+    //           "kind": "block",
+    //           "type": "logic_operation"
+    //         },
+    //         {
+    //           "kind": "block",
+    //           "type": "logic_boolean"
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       "kind": "category",
+    //       "name": "Control",
+    //       "contents": [
+    //         {
+    //           "kind": "block",
+    //           "type": "controls_for"
+    //         },
+
+    //         {
+    //           "kind": "block",
+    //           "type": "controls_whileUntil"
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // }
+
+  }
+
   localStorageHandler() {
     const xmlString = localStorage.getItem('xml') || this.getXmlExampleTemplate();
     localStorage.setItem('xml', xmlString);
