@@ -9,7 +9,7 @@
   <script src="./js/third_party/blockly_compressed.js" defer></script>
   <script src="./js/third_party/blocks_compressed.js" defer></script>
   <script src="./js/third_party/javascript_compressed.js" defer></script>
-  <script src="./js/third_party/en.js" defer></script>
+  <script src="./js/third_party/messages.js" defer></script>
   <script src="./js/index.js" defer></script>
   <title>Blockly with js interpreter</title>
 </head>
@@ -26,6 +26,7 @@
       <li> <button id="stepButton">Step by step</button></li>
       <li><label>Remove garbage code<input type="checkbox" id="typeJsOutput" name="typeJsOutput" checked /></label></li>
       <li> <button id="saveButton">Save example</button></li>
+      <li><select id="languageMenu"></select></li>
     </ul>
   </nav>
 
@@ -41,7 +42,7 @@
 
   </div>
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-    <category name="Logic" categorystyle="logic_category">
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
