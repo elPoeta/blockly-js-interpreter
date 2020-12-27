@@ -9,7 +9,7 @@
   <script src="./js/third_party/blockly_compressed.js" defer></script>
   <script src="./js/third_party/blocks_compressed.js" defer></script>
   <script src="./js/third_party/javascript_compressed.js" defer></script>
-  <script src="./js/third_party/en.js" defer></script>
+  <script src="./js/third_party/messages.js" defer></script>
   <script src="./js/index.js" defer></script>
   <title>Blockly with js interpreter</title>
 </head>
@@ -26,6 +26,7 @@
       <li> <button id="stepButton">Step by step</button></li>
       <li><label>Remove garbage code<input type="checkbox" id="typeJsOutput" name="typeJsOutput" checked /></label></li>
       <li> <button id="saveButton">Save example</button></li>
+      <li><select id="languageMenu"></select></li>
     </ul>
   </nav>
 
@@ -41,7 +42,7 @@
 
   </div>
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-    <category name="Logic" categorystyle="logic_category">
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
@@ -50,7 +51,7 @@
       <block type="logic_null" disabled="true"></block>
       <block type="logic_ternary"></block>
     </category>
-    <category name="Loops" categorystyle="loop_category">
+    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <shadow type="math_number">
@@ -80,7 +81,7 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
-    <category name="Math" categorystyle="math_category">
+    <category name="%{BKY_CATMATH}" colour="%{BKY_MATH_HUE}">
       <block type="math_number" gap="32">
         <field name="NUM">123</field>
       </block>
@@ -181,7 +182,7 @@
         </value>
       </block>
     </category>
-    <category name="Text" categorystyle="text_category">
+    <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
       <block type="text"></block>
       <block type="text_multiline"></block>
       <block type="text_join"></block>
@@ -284,7 +285,7 @@
         </value>
       </block>
     </category>
-    <category name="Lists" categorystyle="list_category">
+    <category name="%{BKY_CATLISTS}" colour="%{BKY_LISTS_HUE}">
       <block type="lists_create_with">
         <mutation items="0"></mutation>
       </block>
@@ -336,7 +337,7 @@
       <block type="lists_sort"></block>
       <block type="lists_reverse"></block>
     </category>
-    <category name="Colour" categorystyle="colour_category">
+    <category name="%{BKY_CATCOLOUR}" colour="%{BKY_COLOUR_HUE}">
       <block type="colour_picker"></block>
       <block type="colour_random"></block>
       <block type="colour_rgb">
@@ -375,8 +376,8 @@
       </block>
     </category>
     <sep></sep>
-    <category name="Variables" categorystyle="variable_category" custom="VARIABLE"></category>
-    <category name="Functions" categorystyle="procedure_category" custom="PROCEDURE"></category>
+    <category name="%{BKY_CATVARIABLES}" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
+    <category name="%{BKY_CATFUNCTIONS}" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
   </xml>
   <!-- <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
     <category name="Logic" colour="%{BKY_LOGIC_HUE}">

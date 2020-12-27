@@ -1,29 +1,11 @@
 class CustomBlockly {
   constructor() {
-    this.localStorageHandler();
-    this.demoWorkspace = Blockly.inject('blocklyDiv', {
-      media: '/assets/',
-      toolbox: document.getElementById('toolbox')
-    });
-    Blockly.JavaScript.addReservedWords('exit');
-    this.outputArea = document.getElementById('output');
-    this.outputJsArea = document.getElementById('outputJS');
-    this.stepButton = document.getElementById('stepButton');
-    this.runButton = document.getElementById('runButton');
-    this.myInterpreter = null;
-    this.runner = null;
-    this.highlightPause = false;
-    this.latestCode = '';
-    this.isOutputChecked = true;
-    this.addButtonListener();
-    this.generateCodeAndLoadIntoInterpreter();
-    this.demoWorkspace.addChangeListener(event => {
-      if (!(event instanceof Blockly.Events.Ui)) {
-        // Something changed. Parser needs to be reloaded.
-        this.resetInterpreter();
-        this.generateCodeAndLoadIntoInterpreter();
-      }
-    });
+    this.LANGUAGE_NAME = {
+      'en': 'English',
+      'es': 'Español'
+    };
+    this.LANG = this.getLang();
+    this.addScriptLanguage();
   }
 
   getToolbox() {
@@ -207,9 +189,11 @@ class CustomBlockly {
     </block>
   </xml>`
   }
+
   typeJsOutputHandler(ev) {
     this.isOutputChecked = !this.isOutputChecked;
   }
+
   runCode(ev) {
     if (!this.myInterpreter) {
       // First statement of this code.
@@ -299,6 +283,129 @@ class CustomBlockly {
     localStorage.setItem('xml', xmlString);
     alert("Saved!!!")
   }
+
+  getLang() {
+    let lang = this.getStringParamFromUrl('lang', '');
+    if (this.LANGUAGE_NAME[lang] === undefined) {
+      // Default to English.
+      lang = 'en';
+    }
+    return lang;
+  }
+
+  getStringParamFromUrl(name, defaultValue) {
+    let val = location.search.match(new RegExp('[?&]' + name + '=([^&]+)'));
+    return val ? decodeURIComponent(val[1].replace(/\+/g, '%20')) : defaultValue;
+  }
+
+  initLanguage() {
+    document.dir = 'ltr';
+    document.head.parentElement.setAttribute('lang', this.LANG);
+
+    // Sort languages alphabetically.
+    let languages = [];
+    for (let lang in this.LANGUAGE_NAME) {
+      languages.push([this.LANGUAGE_NAME[lang], lang]);
+    }
+    var comp = function (a, b) {
+      // Sort based on first argument ('English', 'Русский', '简体字', etc).
+      if (a[0] > b[0]) return 1;
+      if (a[0] < b[0]) return -1;
+      return 0;
+    };
+    languages.sort(comp);
+    this.languageMenu = document.querySelector('#languageMenu');
+    this.languageMenu.options.length = 0;
+    for (var i = 0; i < languages.length; i++) {
+      let tuple = languages[i];
+      let lang = tuple[tuple.length - 1];
+      let option = new Option(tuple[0], lang);
+      if (lang == this.LANG) {
+        option.selected = true;
+      }
+      this.languageMenu.options.add(option);
+    }
+    languageMenu.addEventListener('change', this.changeLanguage.bind(this), true);
+  }
+
+  changeLanguage() {
+    let newLang = encodeURIComponent(
+      this.languageMenu.options[this.languageMenu.selectedIndex].value);
+    let search = window.location.search;
+    if (search.length <= 1) {
+      search = '?lang=' + newLang;
+    } else if (search.match(/[?&]lang=[^&]*/)) {
+      search = search.replace(/([?&]lang=)[^&]*/, '$1' + newLang);
+    } else {
+      search = search.replace(/\?/, '?lang=' + newLang + '&');
+    }
+
+    window.location = window.location.protocol + '//' +
+      window.location.host + window.location.pathname + search;
+  }
+
+  addScriptLanguage() {
+    const container = document.querySelector('head');
+    const script = document.createElement("script");
+    script.src = `./js/third_party/${this.LANG}.js`;
+    container.appendChild(script);
+    const scriptString = document.createElement("script");
+    scriptString.src = `./js/third_party/msg_blk/${this.LANG}.js`;
+    container.appendChild(scriptString);
+
+    scriptString.addEventListener('load', ev => {
+      for (let messageKey in MSG) {
+        if (messageKey.indexOf('cat') == 0) {
+          Blockly.Msg[messageKey.toUpperCase()] = MSG[messageKey];
+        }
+      }
+
+      // Construct the toolbox XML, replacing translated variable names.
+      let toolboxText = document.getElementById('toolbox').outerHTML;
+      toolboxText = toolboxText.replace(/(^|[^%]){(\w+)}/gi,
+        function (m, p1, p2) {
+          return p1 + MSG[p2];
+        });
+
+      const toolboxXml = Blockly.Xml.textToDom(toolboxText);
+      this.startWorkspace(toolboxXml);
+    });
+
+  }
+
+  startWorkspace(toolboxXml) {
+    this.initLanguage();
+    this.localStorageHandler();
+    this.demoWorkspace = Blockly.inject('blocklyDiv', {
+      media: '/assets/',
+      toolbox: toolboxXml,
+      zoom:
+      {
+        controls: true,
+        wheel: true
+      }
+    });
+    Blockly.JavaScript.addReservedWords('exit');
+    this.outputArea = document.getElementById('output');
+    this.outputJsArea = document.getElementById('outputJS');
+    this.stepButton = document.getElementById('stepButton');
+    this.runButton = document.getElementById('runButton');
+    this.myInterpreter = null;
+    this.runner = null;
+    this.highlightPause = false;
+    this.latestCode = '';
+    this.isOutputChecked = true;
+    this.addButtonListener();
+    this.generateCodeAndLoadIntoInterpreter();
+    this.demoWorkspace.addChangeListener(event => {
+      if (!(event instanceof Blockly.Events.Ui)) {
+        // Something changed. Parser needs to be reloaded.
+        this.resetInterpreter();
+        this.generateCodeAndLoadIntoInterpreter();
+      }
+    });
+  }
 }
 
 new CustomBlockly();
+
