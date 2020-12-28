@@ -408,9 +408,17 @@ class CustomBlockly {
     this.demoWorkspace.addChangeListener(event => {
       if (!(event instanceof Blockly.Events.Ui)) {
         // Something changed. Parser needs to be reloaded.
-        // this.resetInterpreter();
-        // this.generateCodeAndLoadIntoInterpreter();
+        this.resetInterpreter();
+        this.generateCodeAndLoadIntoInterpreter();
       }
+      let code = Blockly.JavaScript.workspaceToCode(this.demoWorkspace);
+      if (code !== '') {
+        this.outputJsArea.value = '// JavaScript output\n\n';
+        this.outputJsArea.value += this.isOutputChecked ?
+          code.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n') :
+          code;
+      }
+
     });
   }
 
