@@ -121,11 +121,13 @@ class CustomBlockly {
     this.stepButton = document.querySelector('#stepButton');
     this.typeJsOutput = document.querySelector('#typeJsOutput');
     this.saveButton = document.querySelector('#saveButton');
+    this.cleanOutputButton = document.querySelector('#cleanOutputButton');
     this.loadButton.addEventListener('click', this.loadExample.bind(this));
     this.runButton.addEventListener('click', this.runCode.bind(this));
     this.stepButton.addEventListener('click', this.stepCode.bind(this));
     this.typeJsOutput.addEventListener('change', this.typeJsOutputHandler.bind(this));
     this.saveButton.addEventListener('click', this.saveBlock.bind(this));
+    this.cleanOutputButton.addEventListener('click', this.cleanOutputHandler.bind(this));
   }
 
   loadExample(ev) {
@@ -281,7 +283,13 @@ class CustomBlockly {
     const xml = Blockly.Xml.workspaceToDom(this.demoWorkspace);
     const xmlString = Blockly.Xml.domToText(xml);
     localStorage.setItem('xml', xmlString);
+    // const x2js = new X2JS();
+    // const xmlText = xmlString
+    // const jsonObj = x2js.xml_str2json(xmlText);
     alert("Saved!!!")
+    //console.log(jsonObj)
+    //const newxml = x2js.json2xml_str(jsonObj)
+    //console.log(newxml);
   }
 
   getLang() {
@@ -403,7 +411,20 @@ class CustomBlockly {
         this.resetInterpreter();
         this.generateCodeAndLoadIntoInterpreter();
       }
+      let code = Blockly.JavaScript.workspaceToCode(this.demoWorkspace);
+      if (code !== '') {
+        this.outputJsArea.value = '// JavaScript output\n\n';
+        this.outputJsArea.value += this.isOutputChecked ?
+          code.replace(/highlightBlock\(.+\);/gi, '').replace(/\n\s*\n/g, '\n') :
+          code;
+      }
+
     });
+  }
+
+  cleanOutputHandler(ev) {
+    this.resetInterpreter();
+    this.generateCodeAndLoadIntoInterpreter();
   }
 }
 
